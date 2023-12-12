@@ -8,11 +8,11 @@ class Solution:
             if not stack:
                 stack.append((day, temp))
                 continue
-            
+
             while stack and temp > last_recorded_temp(stack):
                 prev_day, prev_temp = stack.pop()
                 days[prev_day] = day - prev_day
-            
+
             stack.append((day, temp))
-                
+
         return days
