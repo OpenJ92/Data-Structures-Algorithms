@@ -6,7 +6,7 @@ class Solution:
             '*' : lambda x, y: x * y,
             '/' : lambda x, y: math.trunc(x / y)
         }
-                
+
         stack = deque()
         for token in tokens:
             if token not in operands:
@@ -16,5 +16,5 @@ class Solution:
             y, x = stack.pop(), stack.pop()
             val = operands[token](x, y)
             stack.append(val)
-        
+
         return stack.pop()

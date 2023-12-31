@@ -20,10 +20,8 @@ class Solution:
                     nlst.append(two)
                     lst1.appendleft(one)
 
-            if lst1:
-                nlst += lst1
-            if lst2:
-                nlst += lst2
+            if lst1: nlst += lst1
+            if lst2: nlst += lst2
 
             return nlst
 

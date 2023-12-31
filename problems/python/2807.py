@@ -23,4 +23,3 @@ class Solution:
             right = right.next
 
         return head
-
