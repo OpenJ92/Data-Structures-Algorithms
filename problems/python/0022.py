@@ -1,4 +1,4 @@
-class Solution:
+class Recursive:
     def generateParenthesis(self, n: int) -> List[str]:
 
         def backtrack(path, open, closed, parenthesis):
@@ -20,6 +20,21 @@ class Solution:
         closed = [')'] * n
         backtrack("", open, closed, parenthesis)
         return parenthesis
+
+class Iterative:
+    def generateParenthesis(self, n: int) -> List[str]:
+        stack = deque([(n, n, '')])
+        out   = deque([])
+        while stack:
+            open, closed, parenthesis = stack.pop()
+            if not open and not closed:
+                out.append(parenthesis)
+                continue
+            if open:
+                stack.append((open-1, closed, parenthesis+'('))
+            if closed and closed > open:
+                stack.append((open, closed-1, parenthesis+')'))
+        return out
 
 
 
