@@ -6,13 +6,25 @@
 #         self.right = right
 class Solution:
     def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
-        even = lambda lst: all(x % 2 == 0 for x in lst)
-        odd  = lambda lst: all(x % 2 != 0 for x in lst)
-        increasing = lambda lst: all(i < j for i, j in zip(lst, lst[1:]))
-        decreasing = lambda lst: all(i > j for i, j in zip(lst, lst[1:]))
+        def check_elements(lst, check):
+            for element in lst:
+                if not check(element.val):
+                    return False
+            return True
+        even = lambda lst: check_elements(lst, lambda x: x % 2 == 0)
+        odd  = lambda lst: check_elements(lst, lambda x: x % 2 != 0)
 
-        even_indexed = {'parity' : odd, 'change' : increasing}
-        odd_indexed = {'parity' : even, 'change' : decreasing}
+        def compare_neighbors(lst, compare):
+            length = len(lst)
+            for index in range(1, length):
+                if not compare(lst[index-1].val,lst[index].val):
+                    return False
+            return True
+        increasing = lambda lst: compare_neighbors(lst, lambda x, y: x < y)
+        decreasing = lambda lst: compare_neighbors(lst, lambda x, y: x > y)
+
+        even_indexed = {'parity' : odd,  'change' : increasing}
+        odd_indexed  = {'parity' : even, 'change' : decreasing}
         functions = cycle([even_indexed, odd_indexed])
 
         def valid(level, functions):
@@ -21,23 +33,17 @@ class Solution:
             return parity and change
 
         queue = deque([root])
-        level = [root.val]
-        check = next(functions)
-
         while queue:
-            if not valid(level, check):
+            check = next(functions)
+            if not valid(queue, check):
                 return False
 
-            level = []
             for _ in range(len(queue)):
                 node = queue.popleft()
                 if node.left:
-                    level.append(node.left.val)
                     queue.append(node.left)
                 if node.right:
-                    level.append(node.right.val)
                     queue.append(node.right)
 
-            check = next(functions)
-
         return True
+
