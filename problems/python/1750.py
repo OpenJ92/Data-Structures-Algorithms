@@ -17,3 +17,18 @@ class Solution:
                 string.pop()
 
         return len(string)
+
+class Solution:
+    def minimumLength(self, string: str) -> int:
+        left  = 0
+        right = len(string) - 1
+
+        while left < right and string[left] == string[right]:
+            landmark = string[left]; left += 1
+            while left <= right and string[left] == landmark:
+                left += 1
+            while left <= right and string[right] == landmark:
+                right -= 1
+
+        return right - left + 1
+
