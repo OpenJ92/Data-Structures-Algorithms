@@ -10,8 +10,11 @@ class Solution:
             
             right = nlength - 1 - (index - left)
 
-            _left  = nums[left]  * multipliers[index] + dynamic_program(left + 1, index + 1)
-            _right = nums[right] * multipliers[index] + dynamic_program(left, index + 1)
+            _left  = nums[left]  * multipliers[index] \
+		   + dynamic_program(left + 1, index + 1)
+
+            _right = nums[right] * multipliers[index] \
+		   + dynamic_program(left, index + 1)
         
             return max(_left, _right)
         
