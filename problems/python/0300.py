@@ -26,5 +26,5 @@ class Solution:
             for jndex in range(index+1, length):
                 if numbers[index] < numbers[jndex]:
                     dynamic[index] = max(dynamic[index], 1 + dynamic[jndex])
-        
+
         return max(dynamic)

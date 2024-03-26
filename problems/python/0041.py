@@ -19,3 +19,27 @@ class Solution:
             if potential not in numbers:
                 return potential
 
+class CycleSort:
+    def firstMissingPositive(self, numbers: List[int]) -> int:
+        length = len(numbers)
+
+        def valid(index):
+            return 0 < numbers[index] <= length \
+               and numbers[index] != numbers[numbers[index]-1]
+
+        def swap(index, jndex):
+            temporary = numbers[jndex]
+            numbers[jndex] = numbers[index]
+            numbers[index] = temporary
+
+        index = 0
+        while index < length:
+            while valid(index):
+                swap(index, numbers[index] - 1)
+            index += 1
+
+        for index in range(length):
+            if numbers[index] != index + 1:
+                return index + 1
+
+        return length + 1
