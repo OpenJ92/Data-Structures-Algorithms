@@ -31,3 +31,25 @@ class Solution:
 
         return dynamic_program[rows-1][columns-1]
 
+class Solution:
+    def uniquePathsWithObstacles(self, grid: List[List[int]]) -> int:
+        rows, columns, obstacle = len(grid) - 1, len(grid[0]) - 1, 1
+        if grid[0][0] == obstacle:
+            return 0
+        
+        for row in range(rows-1,-1,-1):
+            if grid[row+1][-1] == obstacle:
+                grid[row][-1] = obstacle
+        for column in range(columns-1,-1,-1):
+            if grid[-1][column+1] == obstacle:
+                grid[-1][column] = obstacle
+        
+        @cache
+        def backtrack(row, column):
+            if grid[row][column] == obstacle:
+                return 0
+            if row == rows or column == columns:
+                return 1
+            return backtrack(row+1,column) + backtrack(row,column+1)
+        
+        return backtrack(0,0)
