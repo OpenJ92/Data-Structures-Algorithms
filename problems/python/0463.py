@@ -1,3 +1,4 @@
+
 class Solution:
     def islandPerimeter(self, grid: List[List[int]]) -> int:
         rows, columns = len(grid), len(grid[0])
@@ -29,3 +30,4 @@ class Solution:
                 perimeter += 1
 
         return perimeter
+
