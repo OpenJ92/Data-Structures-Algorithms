@@ -1,3 +1,4 @@
+
 class Solution:
     def islandPerimeter(self, grid: List[List[int]]) -> int:
         rows, columns = len(grid), len(grid[0])
@@ -6,14 +7,6 @@ class Solution:
         def inbounds(row, column):
             return 0 <= row < rows and 0 <= column < columns
 
-        def count(row, column):
-            output = 0
-            for drow, dcolumn in directions:
-                nrow, ncolumn = row+drow, column+dcolumn
-                if (not inbounds(nrow, ncolumn)) or grid[nrow][ncolumn] == 0:
-                    output += 1
-            return output
-
         def find():
             for row in range(rows):
                 for column in range(columns):
@@ -21,16 +14,20 @@ class Solution:
                         return row, column
         
         row, column = find()
-        stack, perimiter, seen = [(row, column)], 0, set([(row, column)])
+        stack, perimeter, seen = [(row, column)], 0, set([(row, column)])
         while stack:
             row, column = stack.pop()
-            perimiter += count(row, column)
-
+            
             for drow, dcolumn in directions:
                 nrow, ncolumn = row+drow, column+dcolumn
-                if inbounds(nrow, ncolumn) and grid[nrow][ncolumn] \
-                                           and ((nrow, ncolumn) not in seen):
-                    stack.append((nrow, ncolumn))
-                    seen.add((nrow, ncolumn))
+                ## Continue search on landmass
+                if inbounds(nrow, ncolumn) and grid[nrow][ncolumn]:
+                    if ((nrow, ncolumn) not in seen):
+                        stack.append((nrow, ncolumn))
+                        seen.add((nrow, ncolumn))
+                    continue
+                ## nrow, ncolumn must be out of bounds or water ->
+                perimeter += 1
 
-        return perimiter
+        return perimeter
+
