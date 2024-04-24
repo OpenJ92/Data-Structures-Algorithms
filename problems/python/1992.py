@@ -18,15 +18,19 @@ class Solution:
                 for direction in (up, right, down, left):
                     drow, dcolumn = direction
                     nrow, ncolumn = row+drow, column+dcolumn
+                    ## Explore valid land if not seen
                     if valid(nrow, ncolumn):
                         if (nrow, ncolumn) not in state:
                             stack.append((nrow, ncolumn))
                             state.add((nrow, ncolumn))
+                    ## Potential indicator of corner
                     else:
                         adjacent[direction] = True
 
+                ## Detect top-left corner
                 if adjacent[right] and adjacent[up]:
                     top = (row, column)
+                ## Detect bottom-right corner
                 if adjacent[left] and adjacent[down]:
                     bottom = (row, column)
 
