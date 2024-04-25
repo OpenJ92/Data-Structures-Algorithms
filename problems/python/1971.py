@@ -23,3 +23,32 @@ class Solution:
                     path.append(neighbor)
         return False
 
+class UnionFind:
+    def __init__(self, size):
+        self.root = [i for i in range(size)]
+
+    def find(self, x):
+        while x != self.root[x]:
+            x = self.root[x]
+        return x
+
+    def union(self, x, y):
+        rootX = self.find(x)
+        rootY = self.find(y)
+        if rootX != rootY:
+            self.root[rootY] = rootX
+
+    def connected(self, x, y):
+        return self.find(x) == self.find(y)
+
+class Solution:
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        if not edges:
+            return True
+
+        disjoint = UnionFind(n)
+        for _source, _destination in edges:
+            disjoint.union(_source, _destination)
+
+        return disjoint.connected(source, destination)
+
