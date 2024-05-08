@@ -16,17 +16,17 @@ class Solution:
             return memo[house]
         return dp(len(value)-1)
 
-class Solution:
 
-    def rob(self, nums: List[int]) -> int:
-        n = len(nums)
-        memo = [0] * (n + 1)
-        memo[0] = nums[0]
-        if n > 1:
-            memo[1] = max(nums[0], nums[1])
-            for i in range(2, n):
-                memo[i] = max(
-                    nums[i] + memo[i-2],
-                    0 + memo[i-1]
-                )
-        return memo[n-1]
+class Solution:
+    def rob(self, value):
+        if len(value) < 3:
+            return max(value)
+
+        dyn = [0 for _ in range(3)]
+        dyn[0], dyn[1] = value[0], max(value[:2])
+
+        for index in range(2, len(value)):
+            write, rone, rtwo = index%3, (index-1)%3, (index-2)%3
+            dyn[write] = max(value[index] + dyn[rtwo], dyn[rone])
+
+        return dyn[write]
