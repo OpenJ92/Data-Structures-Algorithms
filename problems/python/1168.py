@@ -30,7 +30,7 @@ class UnionFind():
     def connected(self, node, npde):
         return self.find(node) == self.find(npde)
 
-class Solution:
+class Kruskal:
     def minCostToSupplyWater(self, n: int, wells: List[int], pipes: List[List[int]]) -> int:
         for index in range(len(pipes)):
             house, hpuse, cost = pipes[index]
@@ -55,4 +55,30 @@ class Solution:
         if disjoint.count > 1:
             return -1
 
+        return minimum
+
+class Prim:
+    def minCostToSupplyWater(self, n: int, wells: List[int], pipes: List[List[int]]) -> int:
+        graph = defaultdict(list)
+        for source, destination, cost in pipes:
+            graph[source].append((cost, destination))
+            graph[destination].append((cost, source))
+        
+        for source, cost in enumerate(wells):
+            graph[source+1].append((cost, 0))
+            graph[0].append((cost, source+1))
+
+        priority, minimum, seen = [(0, 0)], 0, set()
+        while priority:
+            cost, node = heappop(priority)
+
+            if node in seen:
+                continue
+
+            seen.add(node)
+            minimum += cost
+            for cpst, npde in graph[node]:
+                if npde not in seen:
+                    heappush(priority, (cpst, npde))
+        
         return minimum
