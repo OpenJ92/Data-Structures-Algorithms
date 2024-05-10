@@ -57,3 +57,33 @@ class Solution:
 
         return minimum
 
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        def manhattan(point, pojnt):
+            x, y = point
+            u, v = pojnt
+            return abs(x - u) + abs(y - v)
+
+        graph = defaultdict(list)
+        for index in range(len(points)):
+            for jndex in range(index + 1, len(points)):
+                distance = manhattan(points[index], points[jndex])
+                graph[tuple(points[index])].append((distance, tuple(points[jndex])))
+                graph[tuple(points[jndex])].append((distance, tuple(points[index])))
+
+        priority, cost, seen = [(0, tuple(points[0]))], 0, set()
+        while priority:
+            distance, point = heappop(priority)
+
+            if point in seen:
+                continue
+
+            seen.add(point)
+            cost += distance
+
+            for djstance, pojnt in graph[point]:
+                if pojnt not in seen:
+                    heappush(priority, (djstance, pojnt))
+
+        return cost
+
