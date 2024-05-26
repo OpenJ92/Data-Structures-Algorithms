@@ -10,3 +10,24 @@ class Solution:
             return with_element + without_element
 
         return backtrack(nums, 0, 0)
+
+class Solution:
+    def subsetXORSum(self, numbers: List[int]) -> int:
+        length, number, output = len(numbers), 0, 0
+
+        def backtrack(index):
+            nonlocal number
+            nonlocal output
+
+            if index == length:
+                output += number
+                return
+
+            number ^= numbers[index]
+            take = backtrack(index+1)
+            number ^= numbers[index]
+
+            skip = backtrack(index+1)
+
+        backtrack(0)
+        return output
