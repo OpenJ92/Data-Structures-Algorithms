@@ -3,7 +3,7 @@ class Solution:
         maximums = deque()
         minimums = deque()
         left = 0
-        maxumum = 0
+        maximum = 0
 
         for right in range(len(numbers)):
             # Maintain the maximums in decreasing order
@@ -25,6 +25,6 @@ class Solution:
                     minimums.popleft()
                 left += 1
 
-            maxumum = max(maxumum, right - left + 1)
+            maximum = max(maximum, right - left + 1)
 
-        return maxumum
+        return maximum
